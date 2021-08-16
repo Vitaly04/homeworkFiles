@@ -22,7 +22,7 @@ public class Main {
 
     private static void saveGame(String pathName, GameProgress gameProgress) {
         try (FileOutputStream fos = new FileOutputStream(pathName);
-             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(gameProgress);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
@@ -36,7 +36,7 @@ public class Main {
 
                 for (String value : list) {
                     i++;
-                FileInputStream fis = new FileInputStream(value);
+                    FileInputStream fis = new FileInputStream(value);
                     ZipEntry entry = new ZipEntry("save" + i +".dat");
                     zout.putNextEntry(entry);
                     // считываем содержимое файла в массив

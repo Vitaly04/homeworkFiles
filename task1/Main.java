@@ -6,62 +6,55 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        StringBuilder isCreateDir = createDirectory("C://Games//src");
-        StringBuilder isCreateDir1 = createDirectory("C://Games//res");
-        StringBuilder isCreateDir2 = createDirectory("C://Games//savegames");
-        StringBuilder isCreateDir3 = createDirectory("C://Games//temp");
-        StringBuilder isCreateDir4 = createDirectory("C://Games//src//main");
-        StringBuilder isCreateDir5 = createDirectory("C://Games//src//test");
-        StringBuilder isCreateFile = createFile("C://Games//src//main//Main.java");
-        StringBuilder isCreateFile1 = createFile("C://Games//src//main//Utils.java");
-        StringBuilder isCreateDir6 = createDirectory("C://Games//res//drawables");
-        StringBuilder isCreateDir7 = createDirectory("C://Games//res//vectors");
-        StringBuilder isCreateDir8 = createDirectory("C://Games//res//icons");
-        StringBuilder isCreateFile3 = createFile("C://Games//temp//temp.txt");
-        logFile(isCreateDir);
-        logFile(isCreateDir1);
-        logFile(isCreateDir2);
-        logFile(isCreateDir3);
-        logFile(isCreateDir4);
-        logFile(isCreateDir5);
-        logFile(isCreateFile);
-        logFile(isCreateFile1);
-        logFile(isCreateDir6);
-        logFile(isCreateDir7);
-        logFile(isCreateDir8);
-        logFile(isCreateFile3);
-    }
+        String[] directoryNames = {"C://Games//src", "C://Games//res", "C://Games//savegames", "C://Games//temp",
+                "C://Games//src//main", "C://Games//src//test", "C://Games//res//drawables",
+                "C://Games//res//vectors", "C://Games//res//icons"};
+        String[] fileNames = {"C://Games//src//main//Main.java", "C://Games//src//main//Utils.java",
+                "C://Games//temp//temp.txt"};
+        String[] isCreateDirs = new String[directoryNames.length];
+        String[] isCreateFiles = new String[fileNames.length];
 
-    private static StringBuilder createDirectory(String pathName) {
-        File dir = new File(pathName);
-        StringBuilder sb = new StringBuilder();
-        if (dir.mkdir()) {
-            sb.append("Директория " + dir.getName() + " создана в " + dir.getAbsolutePath());
-            sb.append("\n");
-        } else {
-            sb.append("Директория " + dir.getName() + " не создана");
-            sb.append("\n");
+        for (int i = 0; i < directoryNames.length; i++) {
+            isCreateDirs[i] = createDirectory(directoryNames[i]);
         }
-        return sb;
+        for (int i = 0; i < fileNames.length; i++) {
+            isCreateFiles[i] = createFile(fileNames[i]);
+        }
+        for (String value : isCreateDirs) {
+            logFile(value);
+        }
+        for (String value : isCreateFiles) {
+            logFile(value);
+        }
     }
 
-    private static StringBuilder createFile(String pathName) {
+    private static String createDirectory(String pathName) {
+        File dir = new File(pathName);
+        String message;
+        if (dir.mkdir()) {
+            message = "Директория " + dir.getName() + " создана в " + dir.getAbsolutePath() + "\n";
+        } else {
+            message = "Директория " + dir.getName() + " не создана" + "\n";
+        }
+        return message;
+    }
+
+    private static String createFile(String pathName) {
         File file = new File(pathName);
-        StringBuilder sb = new StringBuilder();
+        String message;
         try {
             if (file.createNewFile())
-            sb.append("Файл " +  file.getName() + " был создан в " + file.getAbsolutePath());
-            sb.append("\n");
+            message = "Файл " +  file.getName() + " был создан в " + file.getAbsolutePath() + "\n";
+            else message = "Файл " +  file.getName() + " не создан " + "\n";
         } catch (IOException ex) {
-            sb.append("Файл " +  file.getName() + " не создан " + ex.getMessage());
-            sb.append("\n");
+            message = ex.getMessage() + "\n";
         }
-        return sb;
+        return message;
     }
 
-    private static void logFile(StringBuilder sb) {
+    private static void logFile(String message) {
         try (FileWriter writer = new FileWriter("C://Games//temp//temp.txt", true)) {
-            writer.write(String.valueOf(sb));
+            writer.write(message);
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
